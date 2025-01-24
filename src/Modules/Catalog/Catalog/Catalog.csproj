@@ -10,11 +10,4 @@
     <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Products\Features\DeleteProduct\" />
-    <Folder Include="Products\Features\GetProductById\" />
-    <Folder Include="Products\Features\GetProductByCategory\" />
-    <Folder Include="Products\Features\GetProducts\" />
-  </ItemGroup>
-
 </Project>
