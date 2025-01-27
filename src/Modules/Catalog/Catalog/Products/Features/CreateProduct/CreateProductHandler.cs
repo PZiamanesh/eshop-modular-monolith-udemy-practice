@@ -4,10 +4,28 @@ public record CreateProductCommand(ProductDto ProductDto) : ICommand<CreateProdu
 
 public record CreateProductResult(Guid Id);
 
-public class CreateProductHandler(CatalogDbContext catalogDb) : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+{
+    public CreateProductCommandValidator()
+    {
+        RuleFor(r => r.ProductDto.Name).NotEmpty().WithMessage("Name is required");
+        RuleFor(r => r.ProductDto.Category).NotEmpty().WithMessage("Category is required");
+        RuleFor(r => r.ProductDto.ImageFile).NotEmpty().WithMessage("ImageFile is required");
+        RuleFor(r => r.ProductDto.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+    }
+}
+
+public class CreateProductHandler(
+    CatalogDbContext catalogDb,
+    ILogger<CreateProductHandler> logger
+    ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
+        // logging
+        logger.LogInformation("CreateProductHandler called with {@command}", command);
+
+        // logic
         var product = CreateNewProduct(command.ProductDto);
 
         catalogDb.Products.Add(product);
