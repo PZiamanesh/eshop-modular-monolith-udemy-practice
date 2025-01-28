@@ -12,7 +12,7 @@ public class GetProductByIdHandler(CatalogDbContext catalogDb) : IQueryHandler<G
 
         if (product is null)
         {
-            throw new Exception($"product not found: {query.Id}");
+            throw new ProductNotFoundException(query.Id);
         }
 
         var productDto = product.Adapt<ProductDto>();

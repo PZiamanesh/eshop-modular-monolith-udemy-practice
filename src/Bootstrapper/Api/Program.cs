@@ -1,4 +1,3 @@
-
 var builder = WebApplication.CreateBuilder(args);
 
 // service container
@@ -10,6 +9,8 @@ builder.Services
     .AddBasketModule(builder.Configuration)
     .AddOrderingModule(builder.Configuration);
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 // request pipeline
@@ -20,5 +21,7 @@ app
     .UseCatalogModule()
     .UseBasketModule()
     .UseOrderingModule();
+
+app.UseExceptionHandler(ops => { });
 
 app.Run();
