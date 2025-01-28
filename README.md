@@ -1,4 +1,4 @@
-* Design and implement an app with modular monolithic architecture using .net
+* Design and implement an app with modular monolithic architecture using asp.net core
 
 * Credits: https://github.com/mehmetozkaya
 
