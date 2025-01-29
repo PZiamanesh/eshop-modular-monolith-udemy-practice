@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Basket;
+﻿namespace Basket;
 
 public static class BasketModule
 {
@@ -11,11 +7,23 @@ public static class BasketModule
         IConfiguration configuration
         )
     {
+        // api
+
+        // application
+
+        // infra
+
         return services;
     }
 
     public static IApplicationBuilder UseBasketModule(this IApplicationBuilder app)
     {
+        // api
+
+        // application
+
+        // infra
+
         return app;
     }
 }

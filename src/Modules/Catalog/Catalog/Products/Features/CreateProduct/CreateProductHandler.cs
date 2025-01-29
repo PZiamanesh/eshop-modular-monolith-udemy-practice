@@ -22,10 +22,6 @@ public class CreateProductHandler(
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        // logging
-        logger.LogInformation("CreateProductHandler called with {@command}", command);
-
-        // logic
         var product = CreateNewProduct(command.ProductDto);
 
         catalogDb.Products.Add(product);
