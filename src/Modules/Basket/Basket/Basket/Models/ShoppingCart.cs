@@ -7,4 +7,59 @@ public class ShoppingCart : Aggregate<Guid>
     public string UserName { get; private set; }
     public IReadOnlyList<ShoppingCartItem> Items => _items.AsReadOnly();
     public decimal TotalPrice => Items.Sum(i => i.Price * i.Quantity);
+
+    public static ShoppingCart Create(Guid id, string userName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+
+        var shoppingCart = new ShoppingCart
+        {
+            Id = id,
+            UserName = userName,
+        };
+
+        return shoppingCart;
+    }
+
+    public void AddItem(
+        Guid productId,
+        int quantity,
+        string color,
+        decimal price,
+        string productName
+        )
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
+
+        var existingItem = Items.FirstOrDefault(i => i.ProductId == productId);
+
+        if (existingItem is { })
+        {
+            existingItem.Quantity += quantity;
+        }
+        else
+        {
+            var newItem = new ShoppingCartItem(
+                Id,
+                productId,
+                quantity,
+                color,
+                price,
+                productName
+                );
+
+            _items.Add(newItem);
+        }
+    }
+
+    public void RemoveItem(Guid productId)
+    {
+        var existingItem = Items.FirstOrDefault(i => i.ProductId == productId); ;
+
+        if (existingItem is { })
+        {
+            _items.Remove(existingItem);
+        }
+    }
 }

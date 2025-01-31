@@ -4,7 +4,7 @@ public class ShoppingCartItem : Entity<Guid>
 {
     public Guid ShoppingCartId { get; private set; }
     public Guid ProductId { get; private set; }
-    public int Quantity { get; private set; }
+    public int Quantity { get; internal set; }
     public string Color { get; private set; }
 
     // from catalog module

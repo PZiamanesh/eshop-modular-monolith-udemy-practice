@@ -4,15 +4,15 @@ public record GetProductsQuery(PaginationRequest PaginationRequest) : IQuery<Get
 
 public record GetProductsResult(PaginatedResult<ProductDto> Products);
 
-public class GetProductsHandler(CatalogDbContext catalogDb) : IQueryHandler<GetProductsQuery, GetProductsResult>
+public class GetProductsHandler(CatalogDbContext dbContext) : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {
         var pageIndex = query.PaginationRequest.PageIndex;
         var pageSize = query.PaginationRequest.PageSize;
-        var totalCount = await catalogDb.Products.LongCountAsync(cancellationToken);
+        var totalCount = await dbContext.Products.LongCountAsync(cancellationToken);
 
-        var products = await catalogDb.Products
+        var products = await dbContext.Products
             .AsNoTracking()
             .OrderBy(p => p.Name)
             .Skip(pageIndex * pageSize)

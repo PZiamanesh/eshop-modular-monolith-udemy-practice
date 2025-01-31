@@ -16,7 +16,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 }
 
 public class CreateProductHandler(
-    CatalogDbContext catalogDb,
+    CatalogDbContext dbContext,
     ILogger<CreateProductHandler> logger
     ) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
@@ -24,8 +24,8 @@ public class CreateProductHandler(
     {
         var product = CreateNewProduct(command.ProductDto);
 
-        catalogDb.Products.Add(product);
-        await catalogDb.SaveChangesAsync();
+        dbContext.Products.Add(product);
+        await dbContext.SaveChangesAsync();
 
         return new CreateProductResult(product.Id);
     }

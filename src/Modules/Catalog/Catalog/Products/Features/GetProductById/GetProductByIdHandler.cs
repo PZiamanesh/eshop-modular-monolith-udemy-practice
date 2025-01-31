@@ -4,11 +4,11 @@ public record GetProductByIdQuery(Guid Id) : IQuery<GetProductByIdResult>;
 
 public record GetProductByIdResult(ProductDto Product);
 
-public class GetProductByIdHandler(CatalogDbContext catalogDb) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
+public class GetProductByIdHandler(CatalogDbContext dbContext) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {
     public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
-        var product = await catalogDb.Products.FindAsync(query.Id, cancellationToken);
+        var product = await dbContext.Products.FindAsync(query.Id, cancellationToken);
 
         if (product is null)
         {
