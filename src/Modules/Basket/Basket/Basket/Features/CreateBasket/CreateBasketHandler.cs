@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Basket.Basket.Features.CreateBasket;
+﻿namespace Basket.Basket.Features.CreateBasket;
 
 public record CreateBasketCommand(ShoppingCartDto ShoppingCartDto)
     : ICommand<CreateBasketResult>;

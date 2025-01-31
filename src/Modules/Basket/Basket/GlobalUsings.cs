@@ -8,3 +8,7 @@ global using System.Reflection;
 global using Basket.Basket.Dtos;
 global using Basket.Data;
 global using Shared.CQRS;
+global using FluentValidation;
+global using Basket.Basket.Exceptions;
+global using Mapster;
+

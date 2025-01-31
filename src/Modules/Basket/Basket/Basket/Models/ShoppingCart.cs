@@ -15,7 +15,7 @@ public class ShoppingCart : Aggregate<Guid>
         var shoppingCart = new ShoppingCart
         {
             Id = id,
-            UserName = userName,
+            UserName = userName.ToLowerInvariant(),
         };
 
         return shoppingCart;
@@ -41,7 +41,7 @@ public class ShoppingCart : Aggregate<Guid>
         else
         {
             var newItem = new ShoppingCartItem(
-                Id,
+                shoppingCartId: Id,
                 productId,
                 quantity,
                 color,
