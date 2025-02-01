@@ -1,7 +1,6 @@
 ﻿namespace Basket.Basket.Features.CreateBasket;
 
-public record CreateBasketCommand(ShoppingCartDto ShoppingCartDto)
-    : ICommand<CreateBasketResult>;
+public record CreateBasketCommand(ShoppingCartDto ShoppingCartDto): ICommand<CreateBasketResult>;
 
 public record CreateBasketResult(Guid id);
 
