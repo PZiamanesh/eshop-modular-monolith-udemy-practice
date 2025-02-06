@@ -2,7 +2,7 @@
 
 public record CreateBasketCommand(ShoppingCartDto ShoppingCartDto): ICommand<CreateBasketResult>;
 
-public record CreateBasketResult(Guid id);
+public record CreateBasketResult(Guid Id);
 
 public class CreateBasketCommandValidator : AbstractValidator<CreateBasketCommand>
 {
@@ -14,14 +14,13 @@ public class CreateBasketCommandValidator : AbstractValidator<CreateBasketComman
     }
 }
 
-public class CreateBasketHandler(BasketDbContext dbContext) : ICommandHandler<CreateBasketCommand, CreateBasketResult>
+public class CreateBasketHandler(IBasketRepository repository) : ICommandHandler<CreateBasketCommand, CreateBasketResult>
 {
     public async Task<CreateBasketResult> Handle(CreateBasketCommand command, CancellationToken cancellationToken)
     {
         var basket = CreateBasket(command.ShoppingCartDto);
         
-        dbContext.ShoppingCarts.Add(basket);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await repository.CreateBasketAsync(basket, cancellationToken);
 
         return new CreateBasketResult(basket.Id);
     }

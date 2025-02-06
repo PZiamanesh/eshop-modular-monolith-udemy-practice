@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Shared.Data;
 using Shared.Data.Interceptors;
@@ -16,11 +17,11 @@ public static class BasketModule
 
         // application
 
-        // infra
-        var connectionString = configuration.GetConnectionString("Database");
+        services.AddScoped<IBasketRepository, BasketRepository>();
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
+        // infra
+
+        var connectionString = configuration.GetConnectionString("Database");
 
         services.AddDbContext<BasketDbContext>((sp, options) =>
         {
@@ -38,6 +39,7 @@ public static class BasketModule
         // application
 
         // infra
+
         app.UseMigration<BasketDbContext>();
 
         return app;

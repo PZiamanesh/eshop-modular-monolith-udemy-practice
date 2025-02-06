@@ -33,13 +33,11 @@ public class AddItemIntoBasketCommandValidator : AbstractValidator<AddItemIntoBa
     }
 }
 
-public class AddItemIntoBasketHandler(BasketDbContext dbContext) : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
+public class AddItemIntoBasketHandler(IBasketRepository repository) : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
 {
     public async Task<AddItemIntoBasketResult> Handle(AddItemIntoBasketCommand command, CancellationToken cancellationToken)
     {
-        var basket = await dbContext.ShoppingCarts
-            .Include(x => x.Items)
-            .SingleOrDefaultAsync(s => s.UserName == command.UserName.ToLowerInvariant(), cancellationToken);
+        var basket = await repository.GetBasketAsync(userName: command.UserName, asNoTracking: false, cancellationToken);
 
         if (basket is null)
         {
@@ -54,7 +52,7 @@ public class AddItemIntoBasketHandler(BasketDbContext dbContext) : ICommandHandl
             productName: command.ShoppingCartItemDto.ProductName
             );
 
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await repository.SaveChangesAsync(cancellationToken);
 
         return new AddItemIntoBasketResult(basket.Id);
     }

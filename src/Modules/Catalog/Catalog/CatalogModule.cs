@@ -18,15 +18,13 @@ public static class CatalogModule
         // infra
         var connectionString = configuration.GetConnectionString("Database");
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
-        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
-
         services.AddDbContext<CatalogDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
             options.UseNpgsql(connectionString);
         });
+
+        services.AddScoped<IDataSeeder, CatalogDataSeeder>();
 
         return services;
     }
