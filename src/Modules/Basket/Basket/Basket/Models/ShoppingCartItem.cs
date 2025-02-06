@@ -6,11 +6,10 @@ public class ShoppingCartItem : Entity<Guid>
     public Guid ProductId { get; private set; }
     public int Quantity { get; internal set; }
     public string Color { get; private set; }
-
-    // from catalog module
     public decimal Price { get; private set; }
     public string ProductName { get; private set; }
 
+    
     internal ShoppingCartItem(
         Guid shoppingCartId,
         Guid productId,
@@ -26,5 +25,19 @@ public class ShoppingCartItem : Entity<Guid>
         Color = color;
         Price = price;
         ProductName = productName;
+    }
+
+    // cache serilization
+    internal ShoppingCartItem(
+        Guid id,
+        Guid shoppingCartId,
+        Guid productId,
+        int quantity,
+        string color,
+        decimal price,
+        string productName
+        ) : this(shoppingCartId, productId, quantity, color, price, productName)
+    {
+        Id = id;
     }
 }

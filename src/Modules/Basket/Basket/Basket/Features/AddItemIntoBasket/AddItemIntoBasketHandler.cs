@@ -52,7 +52,7 @@ public class AddItemIntoBasketHandler(IBasketRepository repository) : ICommandHa
             productName: command.ShoppingCartItemDto.ProductName
             );
 
-        await repository.SaveChangesAsync(cancellationToken);
+        await repository.SaveChangesAsync(userName: command.UserName, cancellationToken: cancellationToken);
 
         return new AddItemIntoBasketResult(basket.Id);
     }

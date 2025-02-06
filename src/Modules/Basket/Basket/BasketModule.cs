@@ -18,6 +18,7 @@ public static class BasketModule
         // application
 
         services.AddScoped<IBasketRepository, BasketRepository>();
+        services.Decorate<IBasketRepository, CachedBasketRepository>();
 
         // infra
 

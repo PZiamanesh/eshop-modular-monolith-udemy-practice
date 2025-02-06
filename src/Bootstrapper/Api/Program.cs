@@ -43,6 +43,11 @@ builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>(
 
 builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
 
+builder.Services.AddStackExchangeRedisCache(config =>
+{
+    config.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
 // module specific services
 
 builder.Services

@@ -1,4 +1,4 @@
-﻿
+﻿using Basket.Data.CacheSerialization;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 
@@ -19,11 +19,13 @@ public class CachedBasketRepository(
         var cachedBasket = await cache.GetStringAsync(userName, cancellationToken);
         if (!string.IsNullOrEmpty(cachedBasket))
         {
-            return JsonSerializer.Deserialize<ShoppingCart>(cachedBasket)!;
+            var basketJsonDtoResult = JsonSerializer.Deserialize<ShoppingCartJsonDto>(cachedBasket)!;
+            return basketJsonDtoResult.ToDomain();
         }
 
         var basket = await repository.GetBasketAsync(userName, asNoTracking, cancellationToken);
-        await cache.SetStringAsync(userName, JsonSerializer.Serialize(basket), cancellationToken);
+        var basketJsonDto = ShoppingCartJsonDto.ToJsonDto(basket);
+        await cache.SetStringAsync(userName, JsonSerializer.Serialize(basketJsonDto), cancellationToken);
 
         return basket;
     }
@@ -44,10 +46,15 @@ public class CachedBasketRepository(
         return result;
     }
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public async Task<int> SaveChangesAsync(string? userName = null, CancellationToken cancellationToken = default)
     {
-        return await repository.SaveChangesAsync(cancellationToken);
+        var result = await repository.SaveChangesAsync(cancellationToken: cancellationToken);
 
-        // todo: clear cache
+        if (!string.IsNullOrEmpty(userName))
+        {
+            await cache.RemoveAsync(userName, cancellationToken);
+        }
+
+        return result;
     }
 }

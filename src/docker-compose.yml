@@ -1,11 +1,14 @@
 version: '3.4'
 
 services:
-  eshopdb:
-    image: postgres
+    eshopdb:
+        image: postgres
 
-  seq:
-    image: datalust/seq:latest
+    distributedcache:
+        image: redis
+
+    seq:
+        image: datalust/seq:latest
 
 volumes:
-  postgres_eshopdb:
+    postgres_eshopdb:

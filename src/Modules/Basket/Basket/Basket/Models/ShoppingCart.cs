@@ -8,7 +8,9 @@ public class ShoppingCart : Aggregate<Guid>
     public IReadOnlyList<ShoppingCartItem> Items => _items.AsReadOnly();
     public decimal TotalPrice => Items.Sum(i => i.Price * i.Quantity);
 
-    public static ShoppingCart Create(Guid id, string userName)
+    public static ShoppingCart Create(
+        Guid id, 
+        string userName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(userName);
 
@@ -46,11 +48,15 @@ public class ShoppingCart : Aggregate<Guid>
                 quantity,
                 color,
                 price,
-                productName
-                );
+                productName);
 
             _items.Add(newItem);
         }
+    }
+
+    internal void AddItemForDeserialization(ShoppingCartItem item)
+    {
+        _items.Add(item);
     }
 
     public void RemoveItem(Guid productId)
