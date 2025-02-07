@@ -54,11 +54,6 @@ public class ShoppingCart : Aggregate<Guid>
         }
     }
 
-    internal void AddItemForDeserialization(ShoppingCartItem item)
-    {
-        _items.Add(item);
-    }
-
     public void RemoveItem(Guid productId)
     {
         var existingItem = Items.FirstOrDefault(i => i.ProductId == productId); ;
@@ -67,5 +62,10 @@ public class ShoppingCart : Aggregate<Guid>
         {
             _items.Remove(existingItem);
         }
+    }
+
+    internal void AddItemForDeserialization(ShoppingCartItem item)
+    {
+        _items.Add(item);
     }
 }

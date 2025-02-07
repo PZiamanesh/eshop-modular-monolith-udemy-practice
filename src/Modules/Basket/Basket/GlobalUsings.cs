@@ -17,3 +17,7 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Routing;
 global using Microsoft.AspNetCore.Mvc;
 global using Basket.Data.Repository;
+global using Catalog.Contracts.Products.Features;
+global using MassTransit;
+global using Shared.Messaging.Events;
+global using Microsoft.Extensions.Logging;

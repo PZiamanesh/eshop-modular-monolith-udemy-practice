@@ -1,8 +1,6 @@
-using System.Reflection;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// service container
+// host services
 
 builder.Host.UseSerilog((hostContext, config) =>
 {
@@ -17,23 +15,9 @@ Assembly[] assemblies =
     typeof(BasketModule).Assembly
 ];
 
-builder.Services.AddCarter(configurator: config =>
-{
-    foreach (var assembly in assemblies)
-    {
-        var carterEndpoints = assembly.GetTypes()
-            .Where(t => t.IsAssignableTo(typeof(ICarterModule))).ToArray();
+builder.Services.AddCarterWithAssemblies(assemblies);
 
-        config.WithModules(carterEndpoints);
-    }
-});
-
-builder.Services.AddMediatR(config =>
-{
-    config.RegisterServicesFromAssemblies(assemblies);
-    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
-    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
-});
+builder.Services.AddMediatRWithAssemblies(assemblies);
 
 builder.Services.AddValidatorsFromAssemblies(assemblies);
 
@@ -47,6 +31,8 @@ builder.Services.AddStackExchangeRedisCache(config =>
 {
     config.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+
+builder.Services.AddMassTransitWithAssemblies(assemblies);
 
 // module specific services
 

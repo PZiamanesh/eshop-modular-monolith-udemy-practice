@@ -8,3 +8,5 @@ global using FluentValidation;
 global using Microsoft.EntityFrameworkCore.Diagnostics;
 global using Shared.Behaviors;
 global using Shared.Data.Interceptors;
+global using Shared.Extensions;
+global using System.Reflection;

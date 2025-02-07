@@ -18,7 +18,7 @@ public class LoggingBehavior<TRequest, TResponse>: IPipelineBehavior<TRequest, T
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         logger.LogInformation(
-            "[START] Handling request={Request} - response={Response}",
+            "[START] Handling request: {Request} and response: {Response}",
             typeof(TRequest).Name, typeof(TResponse).Name
             );
 
@@ -39,7 +39,7 @@ public class LoggingBehavior<TRequest, TResponse>: IPipelineBehavior<TRequest, T
         }
 
         logger.LogInformation(
-            "[END] Handled request={Request} with response={Response}",
+            "[END] Handled request:{Request} with response: {Response}",
             typeof(TRequest).Name, typeof(TResponse).Name
             );
 
