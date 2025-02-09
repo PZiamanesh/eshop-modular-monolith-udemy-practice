@@ -1,33 +1,5 @@
 version: '3.4'
 
-# services:
-#   eshopdb:
-#     container_name: eshopdb
-#     environment:
-#       - POSTGRES_USER=postgres
-#       - POSTGRES_PASSWORD=postgres
-#       - POSTGRES_DB=EShopDb
-#     restart: always
-#     ports:
-#       - "5432:5432"
-#     volumes:
-#       - postgres_eshopdb:/var/lib/postgresql/data/
-
-#   distributedcache:
-#     container_name: distributedcache
-#     restart: always
-#     ports:
-#       - "6379:6379"
-
-#   seq:
-#     container_name: seq
-#     environment:
-#       - ACCEPT_EULA=Y
-#     restart: always
-#     ports:
-#       - "5341:5341"
-#       - "9091:80"
-
 services:
     eshopdb:
         container_name: eshopdb
@@ -53,5 +25,16 @@ services:
             - ACCEPT_EULA=Y
         restart: always
         ports:
-            - "5341:5341"
-            - "9091:80"
+            - "5341:80"
+            - "5342:5341"
+    
+    messagebus:
+         container_name: messagebus
+         hostname: ecommerce-mq
+         restart: always
+         ports:
+           - "5672:5672"    # AMQP protocol
+           - "15672:15672"  # Management UI
+         environment:
+           - RABBITMQ_DEFAULT_USER=guest
+           - RABBITMQ_DEFAULT_PASS=guest

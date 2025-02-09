@@ -20,6 +20,6 @@ public class ProductPriceChangedIntegrationEventHandler(
             logger.LogError("Error updating price in basket for productId: {ProductId}", message.ProductId);
         }
 
-        logger.LogError("Price for productId: {ProductId} update in basket" , message.ProductId);
+        logger.LogError("Price for productId: {ProductId} updated in basket" , message.ProductId);
     }
 }
