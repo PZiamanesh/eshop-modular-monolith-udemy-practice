@@ -1,8 +1,5 @@
-﻿using Basket.Data;
-using Basket.Data.Repository;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using Shared.Data;
-using Shared.Data.Interceptors;
 
 namespace Basket;
 
