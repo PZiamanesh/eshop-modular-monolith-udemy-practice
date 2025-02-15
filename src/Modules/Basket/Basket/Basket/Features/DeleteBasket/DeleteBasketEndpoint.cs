@@ -15,6 +15,7 @@ public class DeleteBasketEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("DeleteBasket");
+        .WithName("DeleteBasket")
+        .RequireAuthorization();
     }
 }

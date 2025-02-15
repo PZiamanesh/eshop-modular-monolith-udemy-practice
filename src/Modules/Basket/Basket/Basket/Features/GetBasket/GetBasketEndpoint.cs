@@ -14,6 +14,7 @@ public class GetBasketEndpoint : ICarterModule
 
             return Results.Ok(response);
         })
-        .WithName("GetBasket");
+        .WithName("GetBasket")
+        .RequireAuthorization();
     }
 }

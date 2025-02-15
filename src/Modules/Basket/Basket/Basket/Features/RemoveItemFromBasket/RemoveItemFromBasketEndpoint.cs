@@ -17,6 +17,7 @@ public class RemoveItemFromBasketEndpoint : ICarterModule
 
                 return Results.Ok(response);
             })
-            .WithName("RemoveItemFromBasket");
+            .WithName("RemoveItemFromBasket")
+            .RequireAuthorization();
     }
 }

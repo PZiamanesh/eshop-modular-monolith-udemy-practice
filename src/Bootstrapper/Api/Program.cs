@@ -1,3 +1,5 @@
+using Keycloak.AuthServices.Authentication;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // host services
@@ -24,7 +26,6 @@ builder.Services.AddValidatorsFromAssemblies(assemblies);
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-
 builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventInterceptor>();
 
 builder.Services.AddStackExchangeRedisCache(config =>
@@ -33,6 +34,9 @@ builder.Services.AddStackExchangeRedisCache(config =>
 });
 
 builder.Services.AddMassTransitWithAssemblies(builder.Configuration ,assemblies);
+
+builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 
 // module specific services
 
@@ -50,6 +54,10 @@ app.MapCarter();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler(ops => { });
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app
     .UseCatalogModule()
