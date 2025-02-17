@@ -14,7 +14,8 @@ builder.Host.UseSerilog((hostContext, config) =>
 Assembly[] assemblies =
 [
     typeof(CatalogModule).Assembly,
-    typeof(BasketModule).Assembly
+    typeof(BasketModule).Assembly,
+    typeof(OrderingModule).Assembly
 ];
 
 builder.Services.AddCarterWithAssemblies(assemblies);
